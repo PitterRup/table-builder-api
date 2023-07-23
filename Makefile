@@ -1,3 +1,6 @@
+init:
+	cp table_builder_api/table_builder_api/.env.sample table_builder_api/table_builder_api/.env
+
 start:
 	docker-compose up -d
 
