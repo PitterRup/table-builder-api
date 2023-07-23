@@ -15,4 +15,4 @@ logs_follow:
 	docker-compose logs -f
 
 tests:
-	docker-compose run app poetry run pytest -vv
+	docker-compose run app poetry run pytest -vv $(path)
