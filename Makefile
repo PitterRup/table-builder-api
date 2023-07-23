@@ -16,3 +16,9 @@ logs_follow:
 
 tests:
 	docker-compose run app poetry run pytest -vv $(path)
+
+migrations:
+	docker-compose run app poetry run python manage.py makemigrations
+
+migrate:
+	docker-compose run app poetry run python manage.py migrate
