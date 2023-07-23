@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+    app:
+        build: .
+        volumes:
+            - ./:/usr/src/app
+        ports:
+            - 32321:8000
+        depends_on:
+            - db
+
+    db:
+        image: postgres:11
+        environment:
+            POSTGRES_USER: table_builder
+            POSTRGES_PASSWORD: table_builder
+            POSTGRES_DB: table_builder
+        expose:
+            - 5432
+        volumes:
+            - dbData:/var/lib/postgresql/data
+
+volumes:
+    dbData:
