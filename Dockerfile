@@ -1,13 +1,13 @@
 FROM python:3.11-bullseye
 
-WORKDIR /usr/src/app
+WORKDIR /usr/src/app/table_builder_api
 
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
 ENV PATH="${PATH}:/root/.local/bin"
 
-COPY poetry.lock pyproject.toml /usr/src/app/
+COPY table_builder_api/poetry.lock table_builder_api/pyproject.toml /usr/src/app/table_builder_api/
 
 RUN poetry install
 
-CMD ["poetry", "run", "table_builder_api/manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["poetry", "run", "manage.py", "runserver", "0.0.0.0:8000"]
