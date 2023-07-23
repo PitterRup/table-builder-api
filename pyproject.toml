@@ -6,9 +6,12 @@ authors = ["PitterRup <pitter.rup@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
-django = "^4.2.3"
+python = "3.11.4"
+django = "4.2.3"
 
+
+[tool.poetry.group.dev.dependencies]
+pytest = "7.4.0"
 
 [build-system]
 requires = ["poetry-core"]
