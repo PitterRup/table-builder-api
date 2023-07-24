@@ -6,15 +6,15 @@ Table builder API is a simple REST API which allows clients to create tables in 
 
 ## Requirements
 
-Project is hosted inside docker container so only requirement is to has `docker` and `docker-compose` already installed.
+Project is hosted inside docker container so only requirement is to have `docker` and `docker-compose` already installed.
 If you do not have it please follow:
-* official docker installation guide: https://docs.docker.com/engine/install/
-* officail docker-compose installation guide: https://docs.docker.com/compose/
+* the official docker installation guide: https://docs.docker.com/engine/install/
+* the official docker-compose installation guide: https://docs.docker.com/compose/
 
 ## Installation steps
 
 1. Pull git repository: `git clone https://github.com/PitterRup/table-builder-api.git`
-2. Go in to root project directory: `cd table-builder-api`
+2. Go into root project directory: `cd table-builder-api`
 3. Run `make init` command to create your local `.env` file
 4. Run `make build` command to build docker images for database and web application.
 5. Run `make start` command to start application. API should be available on `http://localhost:32321`
