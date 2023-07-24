@@ -1,5 +1,6 @@
 from django.db import transaction, connection
 from django.db.utils import IntegrityError
+from ninja.orm import create_schema
 
 from api.dynamic_model import create_dynamic_model, Field, serialize_fields, deserialize_fields, compare_fields
 from api.models import DynamicTable
@@ -53,9 +54,11 @@ def add_dynamic_model_record(table_id: int, data: dict):
         try:
             dynamic_table = DynamicTable.objects.get(id=table_id)
         except DynamicTable.DoesNotExist:
-            raise DynamicTableNotExistsError(f'Table with id={table_id} not exists')
+            raise DynamicTableNotExistsError(f'Table with id={table_id} not exists')                
         dynamic_model = create_dynamic_model(dynamic_table.name, deserialize_fields(dynamic_table.fields))
-        d = dynamic_model(**data)
+        dynamic_model_schema = create_schema(dynamic_model, exclude=['id'])
+        validated_data = dynamic_model_schema(**data)
+        d = dynamic_model(**validated_data.dict())
         d.save()
     return d.id
 
@@ -66,4 +69,8 @@ def get_dynamic_model_records(table_id: int):
     except DynamicTable.DoesNotExist:
         raise DynamicTableNotExistsError(f'Table with id={table_id} not exists')
     dynamic_model = create_dynamic_model(dynamic_table.name, deserialize_fields(dynamic_table.fields))
-    return dynamic_model.objects.all()
+    dynamic_model_schema = create_schema(dynamic_model)
+    return [
+        dynamic_model_schema.from_orm(o).dict()
+        for o in dynamic_model.objects.all()
+    ]

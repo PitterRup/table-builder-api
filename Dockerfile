@@ -10,4 +10,4 @@ COPY table_builder_api/poetry.lock table_builder_api/pyproject.toml /usr/src/app
 
 RUN poetry install
 
-CMD ["poetry", "run", "manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["poetry", "run", "python", "manage.py", "runserver", "0.0.0.0:8000"]
