@@ -1,6 +1,6 @@
 # Description
 
-Table builder API is simple REST API which allows clients to create tables in database and to fill up them with data. The project uses `Django` framework to run server and `django-ninja` to expose REST API. It stores data in `PostgreSql` database.
+Table builder API is a simple REST API which allows clients to create tables in database and to fill up them with data. The project uses `Django` framework to run server and `django-ninja` to expose REST API. It stores data in `PostgreSql` database.
 
 # Installation
 
