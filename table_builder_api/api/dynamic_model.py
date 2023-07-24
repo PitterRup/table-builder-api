@@ -1,8 +1,9 @@
 from typing import Optional
-
 from dataclasses import dataclass
 
 from django.db import models
+
+from api.schemas import NewTableField, ColumnType
 
 
 @dataclass
@@ -17,11 +18,11 @@ class Field:
         return ret
 
     @classmethod
-    def from_dict(cls, data: dict):
+    def from_dict(cls, data: dict, excluded_cols: list[str]):
         return cls(**{
             k: v
             for k, v in data.items()
-            if k != '_type'
+            if k not in excluded_cols
         })
 
 
@@ -88,7 +89,14 @@ _type_to_field_cls = {
 
 def deserialize_fields(fields: list[dict]) -> list[Field]:
     return [
-        _type_to_field_cls[f['_type']].from_dict(f)
+        _type_to_field_cls[f['_type']].from_dict(f, excluded_cols=['_type'])
+        for f in fields
+    ]
+
+
+def deserialize_fields_from_schema(fields: list[NewTableField]) -> list[Field]:
+    return [
+        _type_to_field_cls[f.col_type].from_dict(f.dict(), excluded_cols=['col_type'])
         for f in fields
     ]
 

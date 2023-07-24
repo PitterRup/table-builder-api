@@ -121,6 +121,7 @@ class TestUpdateDynamicModelFields:
             assert len([c for c in columns if c[3] == 'col_str_2']) == 0
 
     def test_change_column(self):
+        # TODO
         pass
 
     def test_raise_error_when_table_not_empty(self, dynamic_model, dynamic_model_id, dynamic_model_params):
