@@ -1,3 +1,5 @@
+from typing import Dict
+
 from ninja import Schema
 from enum import Enum
 
@@ -24,3 +26,8 @@ class NewTableSchemaOut(Schema):
 
 class UpdateTableSchemaIn(Schema):
     fields: list[NewTableField]
+
+
+class RequestValidationErrorModel(Schema):
+    message: str = "Invalid input data"    
+    description: Dict                     

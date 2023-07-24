@@ -1,5 +1,6 @@
 import pytest
 from django.db import connection
+from pydantic.error_wrappers import ValidationError
 
 from api.service_layer import create_dynamic_model_table, add_dynamic_model_record, get_dynamic_model_records, update_dynamic_model_fields
 from api.models import DynamicTable
@@ -142,7 +143,10 @@ class TestUpdateDynamicModelFields:
 class TestAddDynamicModelRecord:
     def test_add_record(self, dynamic_model, dynamic_model_id):
         # when
-        record_id = add_dynamic_model_record(dynamic_model_id, {'col_str': 'test'})
+        record_id = add_dynamic_model_record(
+            dynamic_model_id,
+            {'col_str': 'test', 'col_str_2': 'testse'},
+        )
 
         # then
         assert record_id is not None
@@ -155,14 +159,18 @@ class TestAddDynamicModelRecord:
         with pytest.raises(DynamicTableNotExistsError):
             add_dynamic_model_record(1, {})
 
+    def test_raise_validation_error_when_provided_data_is_not_valid(self, dynamic_model, dynamic_model_id):
+        with pytest.raises(ValidationError):
+            add_dynamic_model_record(dynamic_model_id, {'col_str': 'test', 'col_unknown': 'test2'})
+
 
 class TestGetDynamicModelRecords:
     def test_get_all(self, dynamic_model_id, dynamic_model):
         # given
-        add_dynamic_model_record(dynamic_model_id, {'col_str': 'test'})
-        add_dynamic_model_record(dynamic_model_id, {'col_str': 'test2'})
-        add_dynamic_model_record(dynamic_model_id, {'col_str': 'test3'})
-        add_dynamic_model_record(dynamic_model_id, {'col_str': 'test4'})
+        add_dynamic_model_record(dynamic_model_id, {'col_str': 'test', 'col_str_2': 'test_val'})
+        add_dynamic_model_record(dynamic_model_id, {'col_str': 'test2', 'col_str_2': 'test_val'})
+        add_dynamic_model_record(dynamic_model_id, {'col_str': 'test3', 'col_str_2': 'test_val'})
+        add_dynamic_model_record(dynamic_model_id, {'col_str': 'test4', 'col_str_2': 'test_val'})
 
         # when
         rows = get_dynamic_model_records(dynamic_model_id)
